@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { addToCart, confirmOrder } from "@/actions/action";
 import ProductGrid from "@/components/ProductGrid";
+import { CartModal } from "@/components/Cart";
 
 interface CartItem {
   cart_item_id: number;
@@ -13,6 +14,7 @@ interface CartItem {
 }
 
 interface Cart {
+  id: number;
   items: CartItem[];
 }
 
@@ -31,7 +33,7 @@ interface Product {
 
 export default function Shop({
   products = [],
-  cart = { items: [] },
+  cart = { id: 0, items: [] },
   currentUser = null,
 }: {
   products?: Product[];
@@ -75,6 +77,17 @@ export default function Shop({
           currentUser={currentUser}
           onSignInClick={() => setAuthOpen(true)}
           onAddToCart={handleAddToCart}
+        />
+
+        <CartModal
+          open={cartOpen}
+          cartId={cart.id}
+          items={cart.items.map((item) => ({
+            id: item.product_id,
+            name: item.name,
+          }))}
+          onClose={() => setCartOpen(false)}
+          onPurchaseComplete={() => handleCheckout()}
         />
       </main>
     </div>
