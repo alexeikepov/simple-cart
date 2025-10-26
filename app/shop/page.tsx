@@ -66,7 +66,7 @@ export default function Shop({
 
   const cartItemCount = cart.items.reduce(
     (sum: number, item: CartItem) => sum + item.quantity,
-    0
+    0,
   );
 
   return (
