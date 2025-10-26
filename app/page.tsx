@@ -1,19 +1,9 @@
-import ExampleTable from '@/components/ExampleTable'
-import { Btn } from 'zvijude/btns'
+import UserChoice from "@/components/userChoice";
 
-export default function Home() {
+export default async function Home() {
   return (
     <div>
-      Hello World
-      <ExampleTable
-        data={[
-          {
-            offrDt: '2025-01-01',
-            clientData: 'John Doe',
-          },
-        ]}
-      />
-      <Btn lbl='Click me' icon='plus' />
+      <UserChoice />
     </div>
-  )
+  );
 }
