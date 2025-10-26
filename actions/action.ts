@@ -49,7 +49,8 @@ export async function getUser() {
 }
 
 export async function getCart() {
-  const userId = await getUser();
+  const user = await getUser();
+  const userId = user?.id;
 
   const cart = await db("carts").where({ userId, status: "active" }).first();
 
@@ -76,7 +77,8 @@ export async function getCart() {
 }
 
 export async function addToCart(productId: number) {
-  const userId = await getUser();
+  const user = await getUser();
+  const userId = user?.id;
 
   let cart = await db("carts").where({ userId, status: "active" }).first();
 
@@ -107,7 +109,8 @@ export async function addToCart(productId: number) {
 }
 
 export async function confirmOrder() {
-  const userId = await getUser();
+  const user = await getUser();
+  const userId = user?.id;
 
   const activeCart = await db("carts")
     .where({ userId, status: "active" })
@@ -126,7 +129,8 @@ export async function confirmOrder() {
 }
 
 export async function updateCartStatus(cartId: number, newStatus: string) {
-  const userId = await getUser();
+  const user = await getUser();
+  const userId = user?.id;
 
   await db("carts").where({ id: cartId, userId }).update({ status: newStatus });
 
