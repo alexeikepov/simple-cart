@@ -13,8 +13,6 @@ export interface Cart {
 
 export interface User {
   id: number;
-  username: string;
-  email: string;
 }
 
 export interface Product {
@@ -27,5 +25,5 @@ export interface Product {
 export interface ShopProps {
   products: Product[];
   cart: Cart;
-  currentUser: User | null;
+  currentUser: User | null | undefined;
 }
