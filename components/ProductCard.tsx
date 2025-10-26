@@ -26,14 +26,6 @@ export default function ProductCard({
   onSignInClick,
   onAddToCart,
 }: ProductCardProps) {
-  function handleAddToCart() {
-    if (!currentUser) {
-      onSignInClick();
-      return;
-    }
-    onAddToCart(product.id);
-  }
-
   return (
     <div className="border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow">
       <h2 className="text-xl font-semibold mb-2">{product.name}</h2>
@@ -41,12 +33,12 @@ export default function ProductCard({
       <p className="text-2xl font-bold text-green-600 mb-4">${product.price}</p>
 
       <div className="space-y-2">
-        <div
-          onClick={handleAddToCart}
+        <button
+          // onClick={handleAddToCart}
           className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md cursor-pointer text-center transition-colors duration-200 select-none"
         >
           Add to Cart
-        </div>
+        </button>
       </div>
     </div>
   );

@@ -5,10 +5,7 @@ interface HeaderProps {
   onCartClick: () => void;
 }
 
-export default function HeaderCart({
-  cartItemCount,
-  onCartClick,
-}: HeaderProps) {
+export default function Nav({ cartItemCount, onCartClick }: HeaderProps) {
   return (
     <header className="bg-white shadow-sm border-b">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -18,7 +15,8 @@ export default function HeaderCart({
           <div className="flex items-center gap-4">
             <button
               type="button"
-              onClick={onCartClick}
+              popoverTarget="cart"
+              // onClick={onCartClick}
               className="relative inline-flex items-center rounded-md border px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 active:scale-[0.98] transition"
             >
               Cart ({cartItemCount})

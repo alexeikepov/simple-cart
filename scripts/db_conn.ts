@@ -5,6 +5,6 @@ dotenv.config();
 export const db = knex({
   client: "pg",
   connection: {
-    connectionString: process.env.DB_LOCAL_URL,
+    connectionString: process.env.DB_PROD_URL,
   },
 });

@@ -1,5 +1,5 @@
 "use client";
-
+import { useUser } from "@/cart/ctx";
 interface Product {
   id: number;
   name: string;
@@ -27,7 +27,15 @@ export default function ProductGrid({
       </p>
     );
   }
-
+  const t = useUser();
+  function handleAddToCart(productId) {
+    if (!currentUser) {
+      onSignInClick();
+      return;
+    }
+    t.setCart([productId]);
+    // onAddToCart(productId);
+  }
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {products.map((product) => (
@@ -44,9 +52,7 @@ export default function ProductGrid({
           <p className="font-bold text-blue-600 mb-4">{product.price} ₪</p>
 
           <button
-            onClick={() =>
-              currentUser ? onAddToCart(product.id) : onSignInClick()
-            }
+            onClick={() => handleAddToCart(product.id)}
             className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-medium"
           >
             Add to Cart

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { addToCart, confirmOrder } from "@/actions/action";
 import ProductGrid from "@/components/ProductGrid";
 import { CartModal } from "@/components/Cart";
-import HeaderCart from "./header";
+import Nav from "./Nav";
 import { CartItem, ShopProps } from "@/types/type";
 
 export default function Shop({
@@ -43,12 +43,11 @@ export default function Shop({
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {
-        <HeaderCart
-          cartItemCount={cartItemCount}
-          onCartClick={() => setCartOpen(true)}
-        />
-      }
+      <Nav
+        cartItemCount={cartItemCount}
+        onCartClick={() => setCartOpen(true)}
+      />
+
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <ProductGrid
           products={products}

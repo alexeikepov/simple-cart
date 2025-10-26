@@ -1,6 +1,8 @@
 "use client";
 
 import { updateCartStatus } from "@/actions/action";
+import { useUser } from "@/cart/ctx";
+import { log } from "console";
 
 export interface Cart {
   id: number;
@@ -23,7 +25,9 @@ export function CartModal({
   onClose,
   onPurchaseComplete,
 }: CartModalProps) {
-  if (!open) return null;
+  // if (!open) return null;
+  const temp = useUser();
+  console.log(temp);
 
   async function handlePurchase() {
     await updateCartStatus(cartId, "on its way!");
@@ -31,7 +35,7 @@ export function CartModal({
   }
 
   return (
-    <div className="fixed inset-0 bg-white flex items-center justify-center z-50">
+    <div id="cart" popover="auto" className="pop">
       <div className="bg-white p-6 rounded-2xl shadow-xl w-80">
         <h2 className="text-xl font-semibold mb-4 border-b pb-2 text-gray-800">
           Your Cart
