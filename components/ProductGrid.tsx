@@ -1,43 +1,57 @@
 "use client";
 
-import ProductCard from "@/components/ProductCard";
-
-interface User {
-  id: number;
-  username: string;
-  email: string;
-}
-
 interface Product {
   id: number;
   name: string;
-  description: string;
+  description?: string;
   price: number;
 }
 
 interface ProductGridProps {
   products: Product[];
-  currentUser: User | null;
-  onSignInClick: () => void;
+  currentUser: any;
   onAddToCart: (productId: number) => void;
+  onSignInClick: () => void;
 }
 
 export default function ProductGrid({
-  products,
+  products = [],
   currentUser,
-  onSignInClick,
   onAddToCart,
+  onSignInClick,
 }: ProductGridProps) {
+  if (!products || products.length === 0) {
+    return (
+      <p className="text-center text-gray-500 italic">
+        No products available yet.
+      </p>
+    );
+  }
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {products.map((product) => (
-        <ProductCard
+        <div
           key={product.id}
-          product={product}
-          currentUser={currentUser}
-          onSignInClick={onSignInClick}
-          onAddToCart={onAddToCart}
-        />
+          className="border rounded-xl p-5 shadow-sm bg-white hover:shadow-md transition"
+        >
+          <h3 className="text-lg font-semibold text-gray-800 mb-2">
+            {product.name}
+          </h3>
+          <p className="text-gray-500 text-sm mb-3">
+            {product.description || "No description"}
+          </p>
+          <p className="font-bold text-blue-600 mb-4">{product.price} ₪</p>
+
+          <button
+            onClick={() =>
+              currentUser ? onAddToCart(product.id) : onSignInClick()
+            }
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-medium"
+          >
+            Add to Cart
+          </button>
+        </div>
       ))}
     </div>
   );

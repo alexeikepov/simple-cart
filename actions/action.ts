@@ -40,10 +40,12 @@ export async function getProducts() {
     .orderBy("products.id", "asc");
 }
 
-async function getUser() {
+export async function getUser() {
   const cookieStore = await cookies();
   const userId = cookieStore.get("user_id")?.value;
-  return Number(userId);
+  console.log(userId);
+  const user = await db<User>("users").where("id", Number(userId)).first();
+  return user;
 }
 
 export async function getCart() {
@@ -51,19 +53,26 @@ export async function getCart() {
 
   const cart = await db("carts").where({ userId, status: "active" }).first();
 
-  if (!cart) return [];
+  if (!cart) {
+    return { id: 0, items: [] };
+  }
 
-  return db("cart_items")
+  const items = await db("cart_items")
     .join("products", "cart_items.productId", "products.id")
     .select(
-      "cart_items.id as cartItemId",
-      "products.name as productName",
+      "cart_items.id as cart_item_id",
+      "cart_items.productId as product_id",
+      "products.name",
       "products.price",
-      "cart_items.quantity",
-      "cart_items.createdAt"
+      "cart_items.quantity"
     )
     .where("cart_items.cartId", cart.id)
     .orderBy("cart_items.createdAt", "desc");
+
+  return {
+    id: cart.id,
+    items,
+  };
 }
 
 export async function addToCart(productId: number) {
@@ -73,10 +82,7 @@ export async function addToCart(productId: number) {
 
   if (!cart) {
     const [newCart] = await db("carts")
-      .insert({
-        userId,
-        status: "active",
-      })
+      .insert({ userId, status: "active" })
       .returning("id");
     cart = newCart;
   }
