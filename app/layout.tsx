@@ -1,7 +1,7 @@
-import { Assistant } from "next/font/google";
 import "../ui/main.css";
 import { Provider } from "@/cart/ctx";
 import { getCart } from "@/cart/db";
+import { getUser } from "@/auth/db";
 
 export default async function RootLayout({ children }) {
   const user = await getUser();
