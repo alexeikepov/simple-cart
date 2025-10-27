@@ -1,12 +1,20 @@
+import { Assistant } from "next/font/google";
 import "../ui/main.css";
 import { Provider } from "@/cart/ctx";
+import { getCart } from "@/cart/db";
 
-export default function RootLayout({ children }) {
-  const user = { id: 1 };
+export default async function RootLayout({ children }) {
+  const user = await getUser();
+  const cart = await getCart(user);
+
+  console.log("cart", cart);
+
   return (
     <html lang="en">
       <body>
-        <Provider user={user}>{children}</Provider>
+        <Provider user={user} initCart={cart}>
+          {children}
+        </Provider>
       </body>
     </html>
   );

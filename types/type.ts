@@ -13,6 +13,8 @@ export interface Cart {
 
 export interface User {
   id: number;
+  name: string;
+  createdAt: string;
 }
 
 export interface Product {
