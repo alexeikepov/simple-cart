@@ -76,7 +76,11 @@ export async function getCart() {
   };
 }
 
-export async function addToCart(productId: number) {
+export async function addToCart(
+  productId: number,
+  quantity: number = 1,
+  existing: boolean
+) {
   const user = await getUser();
   const userId = user?.id;
 

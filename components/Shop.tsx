@@ -12,19 +12,11 @@ export default function Shop({
   cart = { id: 0, items: [] },
   currentUser = null,
 }: ShopProps) {
-  const [authOpen, setAuthOpen] = useState(false);
-  const [cartOpen, setCartOpen] = useState(false);
-
   async function handleAddToCart(productId: number) {
     if (!currentUser) {
-      setAuthOpen(true);
       return;
     }
     await addToCart(productId);
-  }
-
-  async function handleAuthSuccess() {
-    setAuthOpen(false);
   }
 
   async function handleCheckout() {
@@ -33,7 +25,6 @@ export default function Shop({
     await confirmOrder();
 
     alert("Purchase Complete! Thank you for your purchase!");
-    setCartOpen(false);
   }
 
   const cartItemCount = cart.items.reduce(
@@ -43,28 +34,13 @@ export default function Shop({
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Nav
-        cartItemCount={cartItemCount}
-        onCartClick={() => setCartOpen(true)}
-      />
+      <Nav cartItemCount={cartItemCount} />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <ProductGrid
           products={products}
           currentUser={currentUser}
-          onSignInClick={() => setAuthOpen(true)}
           onAddToCart={handleAddToCart}
-        />
-
-        <CartModal
-          open={cartOpen}
-          cartId={cart.id}
-          items={cart.items.map((item) => ({
-            id: item.product_id,
-            name: item.name,
-          }))}
-          onClose={() => setCartOpen(false)}
-          onPurchaseComplete={() => handleCheckout()}
         />
       </main>
     </div>

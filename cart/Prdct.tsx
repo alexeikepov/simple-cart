@@ -1,11 +1,18 @@
+import { addToCart } from "@/actions/action";
 import { useCtx } from "./ctx";
 
 export default function Prdct({ product }) {
   const { cart, setCart, user } = useCtx();
 
-  function handleAddToCart(product) {
+  async function handleAddToCart(product) {
     if (!user) return;
-    setCart([...cart, product]);
+    const t = [...cart];
+
+    const existing = t.find((p) => p.id === product.id);
+    if (existing) existing.quantity += 1;
+    else t.push({ product, quantity: 1 });
+    setCart(t);
+    // await addToCart(product);
   }
 
   return (
@@ -15,11 +22,12 @@ export default function Prdct({ product }) {
     >
       <h3 className="text-lg font-semibold text-gray-800 mb-2">
         {product.name}
+        {console.log("cart", cart)}
       </h3>
       <p className="text-gray-500 text-sm mb-3">
         {product.description || "No description"}
       </p>
-      <p className="font-bold text-blue-600 mb-4">{product.price} ₪</p>
+      <p className="font-bold text-blue-600 mb-4">{product.price} $</p>
 
       <button
         onClick={() => handleAddToCart(product)}
