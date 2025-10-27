@@ -2,21 +2,19 @@
 
 import { createContext, useContext, useState } from "react";
 
-const UserContext = createContext<any | null>(null);
+const Ctx = createContext<any | null>(null);
 
-export function UserProvider({ children, user }) {
+export function Provider({ children, user }) {
   const [cart, setCart] = useState([]);
   return (
-    <UserContext.Provider value={{ user, cart, setCart }}>
-      {children}
-    </UserContext.Provider>
+    <Ctx.Provider value={{ user, cart, setCart }}>{children}</Ctx.Provider>
   );
 }
 
-export function useUser() {
-  const context = useContext(UserContext);
+export function useCtx() {
+  const context = useContext(Ctx);
   if (context === null)
-    throw new Error("useUser must be used within a UserProvider");
+    throw new Error("useUser must be used within a Provider");
 
   return context;
 }

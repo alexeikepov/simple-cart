@@ -1,11 +1,10 @@
 "use client";
 
-interface HeaderProps {
-  cartItemCount: number;
-  onCartClick: () => void;
-}
+import { useCtx } from "@/cart/ctx";
 
-export default function Nav({ cartItemCount, onCartClick }: HeaderProps) {
+export default function Nav() {
+  const { cart } = useCtx();
+
   return (
     <header className="bg-white shadow-sm border-b">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -16,13 +15,12 @@ export default function Nav({ cartItemCount, onCartClick }: HeaderProps) {
             <button
               type="button"
               popoverTarget="cart"
-              // onClick={onCartClick}
               className="relative inline-flex items-center rounded-md border px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 active:scale-[0.98] transition"
             >
-              Cart ({cartItemCount})
-              {cartItemCount > 0 && (
+              Cart ({cart.length})
+              {cart.length > 0 && (
                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                  {cartItemCount}
+                  {cart.length}
                 </span>
               )}
             </button>

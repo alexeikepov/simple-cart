@@ -1,8 +1,7 @@
 "use client";
 
 import { updateCartStatus } from "@/actions/action";
-import { useUser } from "@/cart/ctx";
-import { log } from "console";
+import { useCtx } from "@/cart/ctx";
 
 export interface Cart {
   id: number;
@@ -25,8 +24,7 @@ export function CartModal({
   onClose,
   onPurchaseComplete,
 }: CartModalProps) {
-  // if (!open) return null;
-  const temp = useUser();
+  const temp = useCtx();
   console.log(temp);
 
   async function handlePurchase() {
