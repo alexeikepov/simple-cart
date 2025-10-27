@@ -1,6 +1,7 @@
 "use server";
 
 import { db } from "@/scripts/db_conn";
+import { Product } from "@/types/type";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -76,11 +77,7 @@ export async function getCart() {
   };
 }
 
-export async function addToCart(
-  productId: number,
-  quantity: number = 1,
-  existing: boolean
-) {
+export async function addToCart(product: Product, isExisting: boolean) {
   const user = await getUser();
   const userId = user?.id;
 
@@ -88,28 +85,18 @@ export async function addToCart(
 
   if (!cart) {
     const [newCart] = await db("carts")
-      .insert({ userId, status: "active" })
+      .insert({ userId: userId, status: "active" })
       .returning("id");
     cart = newCart;
   }
-
-  const existing = await db("cart_items")
-    .where({ cartId: cart.id, productId })
-    .first();
-
-  if (existing) {
-    await db("cart_items")
-      .where({ id: existing.id })
-      .update({ quantity: existing.quantity + 1 });
-  } else {
+  if (isExisting) {
     await db("cart_items").insert({
       cartId: cart.id,
-      productId,
-      quantity: 1,
+      productId: product.id,
+      quantity: +1,
     });
+    revalidatePath("/shop");
   }
-
-  revalidatePath("/shop");
 }
 
 export async function confirmOrder() {

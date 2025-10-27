@@ -9,10 +9,13 @@ export default function Prdct({ product }) {
     const t = [...cart];
 
     const existing = t.find((p) => p.id === product.id);
+    console.log("existing", existing);
+
     if (existing) existing.quantity += 1;
-    else t.push({ product, quantity: 1 });
+    else t.push({ ...product, quantity: 1 });
     setCart(t);
-    // await addToCart(product);
+
+    await addToCart(product, Boolean(existing));
   }
 
   return (
