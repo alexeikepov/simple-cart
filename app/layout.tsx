@@ -1,4 +1,3 @@
-import { Assistant } from "next/font/google";
 import "../ui/main.css";
 import { Provider } from "@/cart/ctx";
 
