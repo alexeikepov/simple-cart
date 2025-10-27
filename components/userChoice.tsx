@@ -3,7 +3,7 @@
 import { getFormData } from "zvijude/form/funcs";
 import { Input } from "zvijude/form";
 import { Btn } from "zvijude/btns";
-import { connectUser } from "@/actions/action";
+import { connectUser } from "@/auth/api";
 
 export default function UserChoice() {
   async function handleConnect(e) {

@@ -1,10 +1,8 @@
 "use client";
 
-import { addToCart } from "@/actions/action";
 import { useCtx } from "./ctx";
 import Nav from "@/components/Nav";
-import ProductGrid from "@/components/ProductGrid";
-import { CartItem } from "@/types/type";
+import { addToCart } from "./api";
 
 export default function Prdct({ products }) {
   const { cart, setCart, user } = useCtx();
@@ -14,7 +12,6 @@ export default function Prdct({ products }) {
     const t = [...cart];
 
     const existing = t.find((p) => p.id === product.id);
-    console.log("existing", existing);
 
     if (existing) existing.quantity += 1;
     else t.push({ ...product, quantity: 1 });
@@ -34,7 +31,6 @@ export default function Prdct({ products }) {
           >
             <h3 className="text-lg font-semibold text-gray-800 mb-2">
               {product.name}
-              {console.log("cart", cart)}
             </h3>
             <p className="font-bold text-blue-600 mb-4">{product.price} $</p>
             <button

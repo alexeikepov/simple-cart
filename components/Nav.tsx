@@ -1,6 +1,7 @@
 "use client";
 
 import { useCtx } from "@/cart/ctx";
+import { CartModal } from "./Cart";
 
 export default function Nav() {
   const { cart } = useCtx();
@@ -24,6 +25,7 @@ export default function Nav() {
                 </span>
               )}
             </button>
+            <CartModal />
           </div>
         </div>
       </div>
