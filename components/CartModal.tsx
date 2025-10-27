@@ -30,9 +30,10 @@ export function CartModal() {
             {cart.map((prod) => (
               <li
                 key={prod.id}
-                className="border-b pb-1 text-gray-700 font-medium"
+                className="border-b pb-1 flex justify-between text-gray-700 font-medium"
               >
-                {prod.name}
+                <span>{prod.name}</span>
+                <span>x{prod.quantity}</span>
               </li>
             ))}
           </ul>

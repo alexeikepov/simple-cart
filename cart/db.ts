@@ -1,7 +1,7 @@
 import { db } from "@/config/db";
 
 export async function getCart(user) {
-  await db("cart_items")
+  const cart = await db("cart_items")
     .join("carts", "cart_items.cartId", "carts.id")
     .join("products", "cart_items.productId", "products.id")
     .where({
@@ -10,7 +10,7 @@ export async function getCart(user) {
     })
     .select("products.*", "cart_items.quantity");
 
-  return;
+  return cart;
 }
 
 export async function getProducts() {

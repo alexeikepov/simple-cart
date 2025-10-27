@@ -1,10 +1,14 @@
 "use client";
 
 import { useCtx } from "@/cart/ctx";
-import { CartModal } from "./Cart";
+import { CartModal } from "./CartModal";
 
 export default function Nav() {
   const { cart } = useCtx();
+
+  console.log("cart", cart);
+
+  const totalProd = cart.reduce((total, prod) => total + prod.quantity, 0);
 
   return (
     <header className="bg-white shadow-sm border-b">
@@ -18,10 +22,10 @@ export default function Nav() {
               popoverTarget="cart"
               className="relative inline-flex items-center rounded-md border px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 active:scale-[0.98] transition"
             >
-              Cart ({cart.length})
-              {cart.length > 0 && (
+              <span>Cart ({totalProd})</span>
+              {totalProd > 0 && (
                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                  {cart.length}
+                  {totalProd}
                 </span>
               )}
             </button>
