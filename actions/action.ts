@@ -90,13 +90,20 @@ export async function addToCart(product: Product, isExisting: boolean) {
     cart = newCart;
   }
   if (isExisting) {
+    await db("cart_items")
+      .where({
+        cartId: cart.id,
+        productId: product.id,
+      })
+      .increment("quantity", 1);
+  } else {
     await db("cart_items").insert({
       cartId: cart.id,
       productId: product.id,
-      quantity: +1,
+      quantity: 1,
     });
-    revalidatePath("/shop");
   }
+  // revalidatePath("/shop");
 }
 
 export async function confirmOrder() {

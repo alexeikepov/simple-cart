@@ -1,5 +1,6 @@
-import Shop from "@/components/Shop";
 import { getProducts, getCart, getUser } from "@/actions/action";
+import Prdct from "@/cart/Prdct";
+import Shop from "@/components/Shop";
 import { cookies } from "next/headers";
 
 export default async function Home() {
@@ -10,7 +11,7 @@ export default async function Home() {
 
   return (
     <div>
-      <Shop products={products} cart={cart} currentUser={user} />
+      <Prdct products={products} />
     </div>
   );
 }

@@ -4,8 +4,9 @@ import { createContext, useContext, useState } from "react";
 
 const Ctx = createContext<any | null>(null);
 
-export function Provider({ children, user }) {
-  const [cart, setCart] = useState([]);
+export function Provider({ children, user, initCart }) {
+  const [cart, setCart] = useState(initCart || []);
+
   return (
     <Ctx.Provider value={{ user, cart, setCart }}>{children}</Ctx.Provider>
   );
