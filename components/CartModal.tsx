@@ -1,7 +1,7 @@
 "use client";
 
 import {
-  addToCart,
+  Checkout,
   IncreseProduct,
   reduceProduct,
   removeProductCart,
@@ -17,9 +17,9 @@ export interface Cart {
 export function CartModal() {
   const { cart, setCart } = useCtx();
 
-  async function handlePurchase() {
-    // await updateCartStatus(cartId, "on its way!");
-    // onPurchaseComplete(items.map((i) => i.id));
+  async function handleCheckout() {
+    setCart([]);
+    await Checkout();
   }
 
   async function handleIncreseProduct(prodId: number) {
@@ -94,11 +94,11 @@ export function CartModal() {
 
         <div className="flex flex-col space-y-2">
           <button
-            onClick={handlePurchase}
+            onClick={handleCheckout}
             disabled={cart.length === 0}
             className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-medium"
           >
-            Purchase
+            Checkout
           </button>
         </div>
       </div>

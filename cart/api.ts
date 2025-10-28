@@ -79,3 +79,14 @@ export async function removeProductCart(productId: number) {
       .del();
   }
 }
+
+export async function Checkout() {
+  const user = await getUser();
+  const userId = user?.id;
+
+  const cart = await db("carts").where({ userId, status: "active" }).first();
+
+  await db("carts")
+    .where({ id: cart.id })
+    .update({ status: "purchased", updatedAt: db.fn.now() });
+}
