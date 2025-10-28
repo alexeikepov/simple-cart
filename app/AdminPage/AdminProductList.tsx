@@ -21,12 +21,10 @@ export default function AdminProductList({ products }: AdminProductListProps) {
     const data = getFormData(e);
     await addProductAdmin(data);
     setEditingProduct(null);
-    window.location.reload();
   }
 
   async function handleRemoveProduct(productId: number) {
     await deleteProductAdmin(productId);
-    window.location.reload();
   }
 
   function handleEditProduct(product: Product) {
@@ -121,7 +119,7 @@ export default function AdminProductList({ products }: AdminProductListProps) {
                     <div className="flex gap-2">
                       <button
                         onClick={() => handleEditProduct(product)}
-                        className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm"
+                        className="bg-orange-400 hover:bg-orange-500 text-white px-3 py-1 rounded text-sm"
                       >
                         Edit
                       </button>
