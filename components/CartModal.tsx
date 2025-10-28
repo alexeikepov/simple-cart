@@ -51,7 +51,7 @@ export function CartModal() {
 
   return (
     <main id="cart" popover="auto" className="pop">
-      <div className="bg-white p-6 rounded-2xl shadow-xl w-80">
+      <div className="bg-white px-5 py-4 w-150 rounded-lg shadow-lg">
         <h2 className="text-xl font-semibold mb-4 border-b pb-2 text-gray-800">
           Your Cart
         </h2>
@@ -59,39 +59,74 @@ export function CartModal() {
         {cart.length === 0 ? (
           <p className="text-gray-500 text-center py-4">Cart is empty</p>
         ) : (
-          <ul className="space-y-2 mb-4">
-            {cart.map((prod) => (
-              <li
-                key={prod.id}
-                className="border-b pb-1 flex justify-between text-gray-700 font-medium"
-              >
-                <span>
-                  <button onClick={() => handlerRemoveProduct(prod.id)}>
-                    Del
-                  </button>
-                </span>
-                <span>{prod.name}</span>
-                <span>x{prod.quantity}</span>
-                <span>
-                  <button onClick={() => handleIncreseProduct(prod.id)}>
-                    +
-                  </button>
-                </span>
-                <span>
-                  <button onClick={() => handleReduceProduct(prod.id)}>
-                    -
-                  </button>
-                </span>
-              </li>
-            ))}
+          <ul className="space-y-4 mb-4">
+            {cart.map((prod) => {
+              const subtotal = prod.price * prod.quantity;
+
+              return (
+                <li
+                  key={prod.id}
+                  className="border rounded-lg p-3 bg-gray-50 shadow-sm"
+                >
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <p className="font-semibold text-gray-800">{prod.name}</p>
+                      <p className="text-sm text-gray-500">
+                        Price per item:{" "}
+                        <span className="font-medium">${prod.price}</span>
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        Subtotal:{" "}
+                        <span className="font-semibold">${subtotal}</span>
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <button
+                        className="bg-blue-500 hover:bg-blue-400 rounded-md text-white px-2 py-1"
+                        onClick={() => handleIncreseProduct(prod.id)}
+                      >
+                        +
+                      </button>
+
+                      <span className="text-gray-700 font-semibold">
+                        x{prod.quantity}
+                      </span>
+
+                      <button
+                        className="bg-green-500 hover:bg-green-400 rounded-md text-white px-2 py-1"
+                        onClick={() => handleReduceProduct(prod.id)}
+                      >
+                        -
+                      </button>
+
+                      <button
+                        className="bg-red-500 hover:bg-red-700 rounded-md text-white px-2 py-1"
+                        onClick={() => handlerRemoveProduct(prod.id)}
+                      >
+                        Del
+                      </button>
+                    </div>
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         )}
 
-        <div className="flex flex-col space-y-2">
+        {/* ✅ TOTAL PRICE */}
+        <div className="border-t pt-3">
+          <div className="flex justify-between text-lg font-semibold text-gray-800 mb-3">
+            <span>Total:</span>
+            <span>
+              ${cart.reduce((sum, p) => sum + p.price * p.quantity, 0)}
+            </span>
+          </div>
+
           <button
             onClick={handleCheckout}
             disabled={cart.length === 0}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-medium"
+            className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 disabled:text-gray-500 text-white py-2 rounded-lg font-medium"
           >
             Checkout
           </button>
