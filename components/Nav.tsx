@@ -33,6 +33,12 @@ export default function Nav() {
             >
               Admin
             </a>
+            <a
+              href="/cartFilter"
+              className="inline-flex items-center rounded-md border px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 transition"
+            >
+              Cart Filter
+            </a>
             <button
               type="button"
               popoverTarget="cart"
