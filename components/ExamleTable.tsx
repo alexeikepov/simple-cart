@@ -41,7 +41,6 @@ export default function ExampleTable({ data = [] }: any) {
     <div>
       <div className="mb-4 bg-white p-4 rounded-lg shadow">
         <div className="flex gap-4 items-center">
-          {/* Status Filter */}
           <div className="w-48">
             <select
               value={statusFilter}
