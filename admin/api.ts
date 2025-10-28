@@ -5,22 +5,12 @@ import { Product } from "@/types/type";
 import { revalidatePath } from "next/cache";
 
 export async function addProductAdmin(data) {
-  await db("products").insert(data);
-
+  if (!data.id) {
+    await db("products").insert(data);
+  } else {
+    await db("products").where({ id: data.id }).update(data);
+  }
   revalidatePath("/shop");
-}
-
-export async function updateProductAdmin(data: Product) {
-  const id = Number(data.id);
-  const name = String(data.name ?? "").trim();
-  const price = Number(data.price);
-
-  await db("products").where({ id }).update({
-    name,
-    price,
-  });
-
-  return { id, name, price };
 }
 
 export async function deleteProductAdmin(productId: number) {
