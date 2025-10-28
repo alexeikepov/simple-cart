@@ -13,7 +13,7 @@ export interface Cart {
 
 export interface User {
   id: number;
-  name: string;
+  user: string;
   createdAt: string;
 }
 

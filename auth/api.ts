@@ -12,7 +12,7 @@ export async function connectUser(data: any) {
 
   if (!user) {
     const [newUser] = await db<User>("users")
-      .insert({ name: username })
+      .insert({ user: username })
       .returning("*");
     user = newUser;
   }
