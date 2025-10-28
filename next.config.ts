@@ -1,17 +1,16 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
-  typedRoutes: true,
   experimental: {
     reactCompiler: true,
-    optimizePackageImports: ['zvijude'],
+    optimizePackageImports: ["zvijude"],
     serverActions: {
-      bodySizeLimit: '9mb',
+      bodySizeLimit: "9mb",
     },
   },
   devIndicators: false,
-  serverExternalPackages: ['knex'],
+  serverExternalPackages: ["knex"],
   poweredByHeader: false,
-}
+};
 
-export default nextConfig
+export default nextConfig;
