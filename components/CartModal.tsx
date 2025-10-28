@@ -4,7 +4,7 @@ import {
   addToCart,
   IncreseProduct,
   reduceProduct,
-  removeProduct,
+  removeProductCart,
 } from "@/cart/api";
 import { useCtx } from "@/cart/ctx";
 
@@ -39,7 +39,7 @@ export function CartModal() {
     if (existing.quantity === 1) {
       const newCart = t.filter((p) => p.id !== prodId);
       setCart(newCart);
-      await removeProduct(prodId);
+      await removeProductCart(prodId);
     } else {
       existing.quantity -= 1;
       setCart(t);
@@ -51,7 +51,7 @@ export function CartModal() {
     const filterCart = cart.filter((p) => p.id !== prodId);
 
     setCart(filterCart);
-    await removeProduct(prodId);
+    await removeProductCart(prodId);
   }
 
   return (
