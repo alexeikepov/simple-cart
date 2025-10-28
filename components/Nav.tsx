@@ -10,12 +10,12 @@ export default function Nav() {
   console.log("cart", cart);
 
   const totalProd = cart.reduce(
-    (total: number, prod: Product) => total + prod.quantity,
+    (total: number, prod: Product) => total + (prod.quantity ?? 0),
     0
   );
 
   return (
-    <header className="bg-white shadow-sm border-b">
+    <header className="bg-white rounded-xl shadow-sm border-b">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <h1 className="text-2xl font-bold text-gray-900">My Shop</h1>
