@@ -23,7 +23,6 @@ export function CartModal() {
 
     if (existing) existing.quantity += 1;
     setCart(t);
-
     await updateProductQuantity(prodId, +1);
   }
 
@@ -50,7 +49,7 @@ export function CartModal() {
   }
 
   return (
-    <div id="cart" popover="auto" className="pop">
+    <main id="cart" popover="auto" className="pop">
       <div className="bg-white p-6 rounded-2xl shadow-xl w-80">
         <h2 className="text-xl font-semibold mb-4 border-b pb-2 text-gray-800">
           Your Cart
@@ -97,6 +96,6 @@ export function CartModal() {
           </button>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
