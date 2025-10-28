@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  Checkout,
-  IncreseProduct,
-  reduceProduct,
-  removeProductCart,
-} from "@/cart/api";
+import { Checkout, removeProductCart, updateProductQuantity } from "@/cart/api";
 import { useCtx } from "@/cart/ctx";
 
 export interface Cart {
@@ -29,7 +24,7 @@ export function CartModal() {
     if (existing) existing.quantity += 1;
     setCart(t);
 
-    await IncreseProduct(prodId);
+    await updateProductQuantity(prodId, +1);
   }
 
   async function handleReduceProduct(prodId: number) {
@@ -43,7 +38,7 @@ export function CartModal() {
     } else {
       existing.quantity -= 1;
       setCart(t);
-      await reduceProduct(prodId);
+      await updateProductQuantity(prodId, -1);
     }
   }
 

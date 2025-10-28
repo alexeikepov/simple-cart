@@ -32,7 +32,7 @@ export async function addToCart(product: Product, isExisting: boolean) {
   }
 }
 
-export async function IncreseProduct(productId: number) {
+export async function updateProductQuantity(productId: number, change: number) {
   const user = await getUser();
   const userId = user?.id;
 
@@ -42,25 +42,9 @@ export async function IncreseProduct(productId: number) {
     await db("cart_items")
       .where({
         cartId: cart.id,
-        productId: productId,
+        productId,
       })
-      .increment("quantity", +1);
-  }
-}
-
-export async function reduceProduct(productId: number) {
-  const user = await getUser();
-  const userId = user?.id;
-
-  const cart = await db("carts").where({ userId, status: "active" }).first();
-
-  if (cart) {
-    await db("cart_items")
-      .where({
-        cartId: cart.id,
-        productId: productId,
-      })
-      .increment("quantity", -1);
+      .increment("quantity", change);
   }
 }
 
