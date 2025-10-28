@@ -4,14 +4,8 @@ import { db } from "@/config/db";
 import { Product } from "@/types/type";
 import { revalidatePath } from "next/cache";
 
-export async function addProductAdmin(data: { name: string; price: number }) {
-  const name = String(data.name ?? "").trim();
-  const price = Number(data.price);
-
-  await db("products").insert({
-    name,
-    price,
-  });
+export async function addProductAdmin(data) {
+  await db("products").insert(data);
 
   revalidatePath("/shop");
 }

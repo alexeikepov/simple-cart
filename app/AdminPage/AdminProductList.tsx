@@ -2,6 +2,8 @@
 
 import Nav from "@/components/Nav";
 import { addProductAdmin, deleteProductAdmin } from "@/admin/api";
+import { getFormData } from "zvijude/form/funcs";
+import { log } from "console";
 
 interface Product {
   id: number;
@@ -14,16 +16,10 @@ interface AdminProductListProps {
 }
 
 export default function AdminProductList({ products }: AdminProductListProps) {
-  async function handleAddProduct(e: React.FormEvent) {
-    e.preventDefault();
-    const formData = new FormData(e.target as HTMLFormElement);
-
-    await addProductAdmin({
-      name: formData.get("name") as string,
-      price: Number(formData.get("price")),
-    });
-
-    window.location.reload();
+  async function handleAddProduct(e) {
+    const data = getFormData(e);
+    await addProductAdmin(data);
+    console.log(data, "data");
   }
 
   async function handleRemoveProduct(productId: number) {
@@ -101,7 +97,7 @@ export default function AdminProductList({ products }: AdminProductListProps) {
                       onClick={() => handleRemoveProduct(product.id)}
                       className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm"
                     >
-                      Delete
+                      Remove
                     </button>
                   </td>
                 </tr>
