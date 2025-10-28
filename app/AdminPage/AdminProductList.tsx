@@ -1,4 +1,7 @@
+"use client";
+
 import Nav from "@/components/Nav";
+import { addProductAdmin } from "@/admin/api";
 
 interface Product {
   id: number;
@@ -11,11 +14,52 @@ interface AdminProductListProps {
 }
 
 export default function AdminProductList({ products }: AdminProductListProps) {
+  async function handleAddProduct(e: React.FormEvent) {
+    e.preventDefault();
+    const formData = new FormData(e.target as HTMLFormElement);
+
+    await addProductAdmin({
+      name: formData.get("name") as string,
+      price: Number(formData.get("price")),
+    });
+
+    window.location.reload();
+  }
   return (
     <div>
       <Nav />
       <div className="p-6">
         <h1 className="text-2xl font-bold mb-6">Products</h1>
+
+        <form
+          onSubmit={handleAddProduct}
+          className="mb-6 bg-white p-4 rounded-lg shadow"
+        >
+          <div className="flex gap-4">
+            <input
+              name="name"
+              type="text"
+              placeholder="Product Name"
+              className="flex-1 border rounded px-3 py-2"
+              required
+            />
+            <input
+              name="price"
+              type="number"
+              placeholder="Price"
+              className="w-32 border rounded px-3 py-2"
+              step="0.01"
+              min="0"
+              required
+            />
+            <button
+              type="submit"
+              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
+            >
+              Add Product
+            </button>
+          </div>
+        </form>
 
         <div className="bg-white rounded-lg shadow">
           <table className="min-w-full">
