@@ -21,7 +21,7 @@ export interface Product {
   id: number;
   name: string;
   price: number;
-  quantity: number;
+  quantity?: number;
   createdAt: string;
 }
 
@@ -29,11 +29,4 @@ export interface ShopProps {
   products: Product[];
   cart: Cart;
   currentUser: User | null | undefined;
-}
-
-export interface AddProduct {
-  id: number;
-  name: string;
-  price: number;
-  createdAt: string;
 }
