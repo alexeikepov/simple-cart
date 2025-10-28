@@ -1,9 +1,8 @@
 "use client";
 
-import Nav from "@/components/Nav";
+import { useState } from "react";
 import { addProductAdmin, deleteProductAdmin } from "@/admin/api";
 import { getFormData } from "zvijude/form/funcs";
-import { log } from "console";
 
 interface Product {
   id: number;
@@ -16,15 +15,26 @@ interface AdminProductListProps {
 }
 
 export default function AdminProductList({ products }: AdminProductListProps) {
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+
   async function handleAddProduct(e) {
     const data = getFormData(e);
     await addProductAdmin(data);
-    console.log(data, "data");
+    setEditingProduct(null);
+    window.location.reload();
   }
 
   async function handleRemoveProduct(productId: number) {
     await deleteProductAdmin(productId);
     window.location.reload();
+  }
+
+  function handleEditProduct(product: Product) {
+    setEditingProduct(product);
+  }
+
+  function handleCancelEdit() {
+    setEditingProduct(null);
   }
   return (
     <div>
@@ -36,10 +46,12 @@ export default function AdminProductList({ products }: AdminProductListProps) {
           className="mb-6 bg-white p-4 rounded-lg shadow"
         >
           <div className="flex gap-4">
+            <input name="id" type="hidden" value={editingProduct?.id || ""} />
             <input
               name="name"
               type="text"
               placeholder="Product Name"
+              defaultValue={editingProduct?.name || ""}
               className="flex-1 border rounded px-3 py-2"
               required
             />
@@ -47,6 +59,7 @@ export default function AdminProductList({ products }: AdminProductListProps) {
               name="price"
               type="number"
               placeholder="Price"
+              defaultValue={editingProduct?.price || ""}
               className="w-32 border rounded px-3 py-2"
               step="0.01"
               min="0"
@@ -54,10 +67,23 @@ export default function AdminProductList({ products }: AdminProductListProps) {
             />
             <button
               type="submit"
-              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
+              className={`px-4 py-2 rounded text-white font-medium ${
+                editingProduct
+                  ? "bg-orange-600 hover:bg-orange-700"
+                  : "bg-green-600 hover:bg-green-700"
+              }`}
             >
-              Add Product
+              {editingProduct ? "Update Product" : "Add Product"}
             </button>
+            {editingProduct && (
+              <button
+                type="button"
+                onClick={handleCancelEdit}
+                className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded"
+              >
+                Cancel
+              </button>
+            )}
           </div>
         </form>
 
@@ -92,12 +118,20 @@ export default function AdminProductList({ products }: AdminProductListProps) {
                     ${product.price}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    <button
-                      onClick={() => handleRemoveProduct(product.id)}
-                      className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm"
-                    >
-                      Remove
-                    </button>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => handleEditProduct(product)}
+                        className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleRemoveProduct(product.id)}
+                        className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm"
+                      >
+                        Remove
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
