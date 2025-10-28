@@ -2,7 +2,7 @@
 
 import { getUser } from "@/auth/db";
 import { db } from "@/config/db";
-import { Product } from "@/types/type";
+import { AddProduct, Product } from "@/types/type";
 import { revalidatePath } from "next/cache";
 
 export async function addToCart(product: Product, isExisting: boolean) {
@@ -65,7 +65,7 @@ export async function reduceProduct(productId: number) {
   }
 }
 
-export async function removeProduct(productId: number) {
+export async function removeProductCart(productId: number) {
   const user = await getUser();
   const userId = user?.id;
 
@@ -79,4 +79,16 @@ export async function removeProduct(productId: number) {
       })
       .del();
   }
+}
+
+export async function addProductAdmin(data: AddProduct) {
+  const name = String(data.name ?? "").trim();
+  const price = Number(data.price);
+
+  await db("products").insert({
+    name,
+    price,
+  });
+
+  revalidatePath("/shop");
 }

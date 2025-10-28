@@ -30,3 +30,10 @@ export interface ShopProps {
   cart: Cart;
   currentUser: User | null | undefined;
 }
+
+export interface AddProduct {
+  id: number;
+  name: string;
+  price: number;
+  createdAt: string;
+}
