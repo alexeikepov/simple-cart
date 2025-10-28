@@ -21,6 +21,18 @@ export default function Nav() {
           <h1 className="text-2xl font-bold text-gray-900">My Shop</h1>
 
           <div className="flex items-center gap-4">
+            <a
+              href="/shop"
+              className="inline-flex items-center rounded-md border px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 transition"
+            >
+              Shop
+            </a>
+            <a
+              href="/AdminPage"
+              className="inline-flex items-center rounded-md border px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 transition"
+            >
+              Admin
+            </a>
             <button
               type="button"
               popoverTarget="cart"
