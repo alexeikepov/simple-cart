@@ -2,6 +2,7 @@
 
 import { Checkout, removeProductCart, updateProductQuantity } from "@/cart/api";
 import { useCtx } from "@/cart/ctx";
+import { Product } from "@/types/type";
 
 export interface Cart {
   id: number;
@@ -42,7 +43,7 @@ export function CartModal() {
   }
 
   async function handlerRemoveProduct(prodId: number) {
-    const filterCart = cart.filter((p) => p.id !== prodId);
+    const filterCart = cart.filter((p: Product) => p.id !== prodId);
 
     setCart(filterCart);
     await removeProductCart(prodId);
