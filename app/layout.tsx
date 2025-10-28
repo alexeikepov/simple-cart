@@ -7,7 +7,7 @@ export default async function RootLayout({ children }) {
   const user = await getUser();
   const cart = await getCart(user);
 
-  console.log("cart", cart);
+  console.log("user", user?.id);
 
   return (
     <html lang="en">

@@ -3,7 +3,6 @@
 import { getUser } from "@/auth/db";
 import { db } from "@/config/db";
 import { Product } from "@/types/type";
-import { revalidatePath } from "next/cache";
 
 export async function addToCart(product: Product, isExisting: boolean) {
   const user = await getUser();
