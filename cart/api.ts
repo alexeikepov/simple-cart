@@ -3,6 +3,7 @@
 import { getUser } from "@/auth/db";
 import { db } from "@/config/db";
 import { Product } from "@/types/type";
+import { revalidatePath } from "next/cache";
 
 export async function addToCart(product: Product, isExisting: boolean) {
   const user = await getUser();
@@ -29,5 +30,53 @@ export async function addToCart(product: Product, isExisting: boolean) {
       productId: product.id,
       quantity: 1,
     });
+  }
+}
+
+export async function IncreseProduct(productId: number) {
+  const user = await getUser();
+  const userId = user?.id;
+
+  const cart = await db("carts").where({ userId, status: "active" }).first();
+
+  if (cart) {
+    await db("cart_items")
+      .where({
+        cartId: cart.id,
+        productId: productId,
+      })
+      .increment("quantity", +1);
+  }
+}
+
+export async function reduceProduct(productId: number) {
+  const user = await getUser();
+  const userId = user?.id;
+
+  const cart = await db("carts").where({ userId, status: "active" }).first();
+
+  if (cart) {
+    await db("cart_items")
+      .where({
+        cartId: cart.id,
+        productId: productId,
+      })
+      .increment("quantity", -1);
+  }
+}
+
+export async function removeProduct(productId: number) {
+  const user = await getUser();
+  const userId = user?.id;
+
+  const cart = await db("carts").where({ userId, status: "active" }).first();
+
+  if (cart) {
+    await db("cart_items")
+      .where({
+        cartId: cart.id,
+        productId: productId,
+      })
+      .del();
   }
 }

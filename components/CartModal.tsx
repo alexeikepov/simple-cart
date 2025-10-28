@@ -1,5 +1,11 @@
 "use client";
 
+import {
+  addToCart,
+  IncreseProduct,
+  reduceProduct,
+  removeProduct,
+} from "@/cart/api";
 import { useCtx } from "@/cart/ctx";
 
 export interface Cart {
@@ -9,15 +15,47 @@ export interface Cart {
 }
 
 export function CartModal() {
-  const { cart } = useCtx();
+  const { cart, setCart } = useCtx();
 
   async function handlePurchase() {
     // await updateCartStatus(cartId, "on its way!");
     // onPurchaseComplete(items.map((i) => i.id));
   }
 
+  async function handleIncreseProduct(prodId: number) {
+    const t = [...cart];
+    const existing = t.find((p) => p.id === prodId);
+
+    if (existing) existing.quantity += 1;
+    setCart(t);
+
+    await IncreseProduct(prodId);
+  }
+
+  async function handleReduceProduct(prodId: number) {
+    const t = [...cart];
+    const existing = t.find((p) => p.id === prodId);
+
+    if (existing.quantity === 1) {
+      const newCart = t.filter((p) => p.id !== prodId);
+      setCart(newCart);
+      await removeProduct(prodId);
+    } else {
+      existing.quantity -= 1;
+      setCart(t);
+      await reduceProduct(prodId);
+    }
+  }
+
+  async function handlerRemoveProduct(prodId: number) {
+    const filterCart = cart.filter((p) => p.id !== prodId);
+
+    setCart(filterCart);
+    await removeProduct(prodId);
+  }
+
   return (
-    <div id="cart" popover="auto" className="pop block">
+    <div id="cart" popover="auto" className="pop">
       <div className="bg-white p-6 rounded-2xl shadow-xl w-80">
         <h2 className="text-xl font-semibold mb-4 border-b pb-2 text-gray-800">
           Your Cart
@@ -32,8 +70,23 @@ export function CartModal() {
                 key={prod.id}
                 className="border-b pb-1 flex justify-between text-gray-700 font-medium"
               >
+                <span>
+                  <button onClick={() => handlerRemoveProduct(prod.id)}>
+                    Del
+                  </button>
+                </span>
                 <span>{prod.name}</span>
                 <span>x{prod.quantity}</span>
+                <span>
+                  <button onClick={() => handleIncreseProduct(prod.id)}>
+                    +
+                  </button>
+                </span>
+                <span>
+                  <button onClick={() => handleReduceProduct(prod.id)}>
+                    -
+                  </button>
+                </span>
               </li>
             ))}
           </ul>

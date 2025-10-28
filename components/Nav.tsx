@@ -2,13 +2,17 @@
 
 import { useCtx } from "@/cart/ctx";
 import { CartModal } from "./CartModal";
+import { Product } from "@/types/type";
 
 export default function Nav() {
   const { cart } = useCtx();
 
   console.log("cart", cart);
 
-  const totalProd = cart.reduce((total, prod) => total + prod.quantity, 0);
+  const totalProd = cart.reduce(
+    (total: number, prod: Product) => total + prod.quantity,
+    0
+  );
 
   return (
     <header className="bg-white shadow-sm border-b">
