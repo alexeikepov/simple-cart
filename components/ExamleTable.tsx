@@ -1,21 +1,30 @@
 "use client";
 
-import { redirect } from "next/navigation";
 import { useState, useMemo } from "react";
 import Table, { ConfigT } from "zvijude/table";
+
+const headers = [
+  { key: "user", label: "Name" },
+  { key: "status", label: "Status" },
+  { key: "createdAt", label: "Created At", format: "formatDate" },
+];
 
 export default function ExampleTable({ data = [] }: any) {
   const [columns, setColumns] = useState(headers);
   const [statusFilter, setStatusFilter] = useState("");
+  const [nameFilter, setNameFilter] = useState("");
 
   const filteredData = useMemo(() => {
     return data.filter((cart: any) => {
       const statusMatch = statusFilter === "" || cart.status === statusFilter;
-      return statusMatch;
+      const nameMatch =
+        nameFilter === "" ||
+        cart.user.toLowerCase().includes(nameFilter.toLowerCase());
+      return statusMatch && nameMatch;
     });
-  }, [data, statusFilter]);
+  }, [data, statusFilter, nameFilter]);
 
-  const [state, setState] = useState(filteredData);
+  const [, setState] = useState(filteredData);
 
   const config = {
     tblId: "someTable",
@@ -31,7 +40,8 @@ export default function ExampleTable({ data = [] }: any) {
   return (
     <div>
       <div className="mb-4 bg-white p-4 rounded-lg shadow">
-        <div className="flex gap-4">
+        <div className="flex gap-4 items-center">
+          {/* Status Filter */}
           <div className="w-48">
             <select
               value={statusFilter}
@@ -46,9 +56,19 @@ export default function ExampleTable({ data = [] }: any) {
               ))}
             </select>
           </div>
+
+          <input
+            type="text"
+            value={nameFilter}
+            onChange={(e) => setNameFilter(e.target.value)}
+            placeholder="Filter by name..."
+            className="border rounded px-3 py-2 w-64"
+          />
+
           <button
             onClick={() => {
               setStatusFilter("");
+              setNameFilter("");
             }}
             className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded"
           >
@@ -56,13 +76,8 @@ export default function ExampleTable({ data = [] }: any) {
           </button>
         </div>
       </div>
+
       <Table config={config} tblCls="mb-0 rounded-b-none" />
     </div>
   );
 }
-
-const headers = [
-  { key: "user", label: "Name" },
-  { key: "status", label: "Status" },
-  { key: "createdAt", label: "Created At", format: "formatDate" },
-];
