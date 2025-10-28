@@ -1,7 +1,7 @@
 "use client";
 
 import Nav from "@/components/Nav";
-import { addProductAdmin } from "@/admin/api";
+import { addProductAdmin, deleteProductAdmin } from "@/admin/api";
 
 interface Product {
   id: number;
@@ -23,6 +23,11 @@ export default function AdminProductList({ products }: AdminProductListProps) {
       price: Number(formData.get("price")),
     });
 
+    window.location.reload();
+  }
+
+  async function handleRemoveProduct(productId: number) {
+    await deleteProductAdmin(productId);
     window.location.reload();
   }
   return (
@@ -74,6 +79,9 @@ export default function AdminProductList({ products }: AdminProductListProps) {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Price
                 </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
@@ -87,6 +95,14 @@ export default function AdminProductList({ products }: AdminProductListProps) {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     ${product.price}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <button
+                      onClick={() => handleRemoveProduct(product.id)}
+                      className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm"
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))}
