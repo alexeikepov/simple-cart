@@ -38,14 +38,12 @@ export async function updateProductQuantity(productId: number, change: number) {
 
   const cart = await db("carts").where({ userId, status: "active" }).first();
 
-  if (cart) {
-    await db("cart_items")
-      .where({
-        cartId: cart.id,
-        productId,
-      })
-      .increment("quantity", change);
-  }
+  await db("cart_items")
+    .where({
+      cartId: cart.id,
+      productId,
+    })
+    .increment("quantity", change);
 }
 
 export async function removeProductCart(productId: number) {
@@ -54,14 +52,12 @@ export async function removeProductCart(productId: number) {
 
   const cart = await db("carts").where({ userId, status: "active" }).first();
 
-  if (cart) {
-    await db("cart_items")
-      .where({
-        cartId: cart.id,
-        productId: productId,
-      })
-      .del();
-  }
+  await db("cart_items")
+    .where({
+      cartId: cart.id,
+      productId: productId,
+    })
+    .del();
 }
 
 export async function Checkout() {
