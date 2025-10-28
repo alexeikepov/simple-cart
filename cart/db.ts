@@ -18,3 +18,27 @@ export async function getProducts() {
     .select("products.id", "products.name", "products.price")
     .orderBy("products.id", "asc");
 }
+
+export async function getCarts() {
+  const carts = await db("carts")
+    .join("users", "carts.userId", "users.id")
+    .join("cart_items", "cart_items.cartId", "carts.id")
+    .join("products", "cart_items.productId", "products.id")
+    .groupBy("carts.id", "users.user")
+    .select(
+      "carts.*",
+      "users.user",
+      db.raw(`
+        json_agg(
+          json_build_object(
+            'productId', cart_items."productId",
+            'name', products.name,
+            'price', products.price,
+            'quantity', cart_items.quantity
+          )
+        ) as items
+      `)
+    );
+
+  return carts;
+}
