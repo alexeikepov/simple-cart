@@ -28,7 +28,7 @@ export default function ExampleTable({ data = [] }: any) {
   };
 
   function onStatus(e) {
-    const status= e.event.value
+    const status = e.event.value;
   }
 
   const clearFilters = () => {
