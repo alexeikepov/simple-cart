@@ -1,7 +1,6 @@
 "use client";
 
 import { useCtx } from "./ctx";
-import Nav from "@/components/Nav";
 import { addToCart } from "./api";
 
 export default function Prdct({ products }) {
