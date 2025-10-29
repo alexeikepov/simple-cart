@@ -6,7 +6,7 @@ export default async function СartFilter({ searchParams }) {
 
   const carts = await getCarts(filter);
 
-  console.log(carts, "carts");
+  console.log(filter, "filter");
 
   return (
     <div>

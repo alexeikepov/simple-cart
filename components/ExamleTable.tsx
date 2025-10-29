@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Table, { ConfigT } from "zvijude/table";
+import FilterOrders from "./FilterOrders";
 
 const headers = [
   { key: "user", label: "Name" },
@@ -25,6 +26,7 @@ export default function ExampleTable({ data = [] }: any) {
 
   return (
     <div>
+      <FilterOrders />
       <Table config={config} tblCls="mb-0 rounded-b-none" />
     </div>
   );
