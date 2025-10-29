@@ -11,20 +11,15 @@ export default function FilterOrders() {
     redirect("/");
   }
 
-  function handleSubmit(e) {
-    // e.preventDefault();
-    // const user = e.target.user.value;
-    // const status = e.target.status.value;
-
+  function handleSubmit(e: FormDataEvent) {
     const data = getFormData(e);
-
     redirect(`?filter=${JSON.stringify(data)}`);
   }
 
   return (
     <div className="mb-4 bg-white p-4 rounded-lg shadow">
       <div className="flex gap-4 items-center">
-        <form onSubmit={handleSubmit} className="flex gap-4 items-center">
+        <form onSubmit={() => handleSubmit} className="flex gap-4 items-center">
           <div className="w-48">
             <select
               name="status"

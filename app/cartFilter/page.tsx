@@ -1,15 +1,9 @@
 import { getCarts } from "@/cart/db";
-import ExampleTable from "@/components/ExamleTable";
+import ExampleTable from "@/components/ExampleTable";
 
-export default async function СartFilter({ searchParams }) {
-  const filter = await searchParams;
-  // const filter = params ? JSON.parse(params) : {};
-
-  console.log("FILTER", filter.status);
-
+export default async function CartFilter({ searchParams }) {
+  const filter = (await searchParams) || {};
   const carts = await getCarts(filter);
-
-  // console.log(filter, "filter");
 
   return (
     <div>

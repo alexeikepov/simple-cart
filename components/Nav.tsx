@@ -7,11 +7,11 @@ import { Product } from "@/types/type";
 export default function Nav() {
   const { cart } = useCtx();
 
-  console.log("cart", cart);
+  // console.log("cart", cart);
 
   const totalProd = cart.reduce(
     (total: number, prod: Product) => total + (prod.quantity ?? 0),
-    0
+    0,
   );
 
   return (

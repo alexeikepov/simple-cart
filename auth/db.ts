@@ -8,6 +8,6 @@ export async function getUser() {
   if (!userId) userId = "1";
 
   const user = await db<User>("users").where("id", Number(userId)).first();
-  console.log("user", user);
+  // console.log("user", user);
   return user;
 }
