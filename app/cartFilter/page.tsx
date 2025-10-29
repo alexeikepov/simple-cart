@@ -2,7 +2,7 @@ import { getCarts } from "@/cart/db";
 import ExampleTable from "@/components/ExamleTable";
 
 export default async function СartFilter({ searchParams }) {
-  const filter = searchParams;
+  const filter = await searchParams;
 
   const filters = {
     status: filter.status || undefined,
@@ -10,7 +10,9 @@ export default async function СartFilter({ searchParams }) {
   };
 
   const carts = await getCarts(filters);
-  console.log(carts, "carts");
+
+  // console.log(carts, "carts");
+
   return (
     <div>
       <ExampleTable data={carts} />
