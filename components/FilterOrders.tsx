@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import type { Route } from "next";
+import { getFormData } from "zvijude/form/funcs";
 
 export default function FilterOrders() {
   const baseStatuses = ["active", "purchased"];
@@ -11,16 +12,13 @@ export default function FilterOrders() {
   }
 
   function handleSubmit(e) {
-    e.preventDefault();
-    const user = e.target.user.value;
-    const status = e.target.status.value;
+    // e.preventDefault();
+    // const user = e.target.user.value;
+    // const status = e.target.status.value;
 
-    let url = "/cartFilter?";
+    const data = getFormData(e);
 
-    if (status) url += `status=${status}`;
-    if (user) url += `${status ? "&" : ""}user=${user}`;
-
-    redirect(url as Route);
+    redirect(`?filter=${JSON.stringify(data)}`);
   }
 
   return (
