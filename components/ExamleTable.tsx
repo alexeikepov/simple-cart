@@ -13,6 +13,7 @@ const headers = [
 export default function ExampleTable({ data = [] }: any) {
   const [columns, setColumns] = useState(headers);
   const searchParams = useSearchParams();
+
   const router = useRouter();
 
   const statusFilter = searchParams.get("status") || "";
@@ -20,13 +21,15 @@ export default function ExampleTable({ data = [] }: any) {
 
   const updateFilter = (key: string, value: string) => {
     const params = new URLSearchParams(searchParams.toString());
-    if (value) {
-      params.set(key, value);
-    } else {
-      params.delete(key);
-    }
+    if (value) params.set(key, value);
+    else params.delete(key);
+
     router.push(`?${params.toString()}`);
   };
+
+  function onStatus(e) {
+    const status= e.event.value
+  }
 
   const clearFilters = () => {
     router.push("?");
@@ -52,7 +55,7 @@ export default function ExampleTable({ data = [] }: any) {
           <div className="w-48">
             <select
               value={statusFilter}
-              onChange={(e) => updateFilter("status", e.target.value)}
+              onChange={onStatus}
               className="w-full border rounded px-3 py-2 text-right"
             >
               <option value="">All Statuses</option>

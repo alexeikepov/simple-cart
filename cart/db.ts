@@ -37,16 +37,12 @@ export async function getCarts(filters?: { status?: string; name?: string }) {
             'quantity', cart_items.quantity
           )
         ) as items
-      `)
+      `),
     );
 
-  if (filters?.status) {
-    query = query.where("carts.status", filters.status);
-  }
+  if (filters?.status) query.where("carts.status", filters.status);
 
-  if (filters?.name) {
-    query = query.whereILike("users.user", `%${filters.name}%`);
-  }
+  if (filters?.name) query.whereILike("users.user", `%${filters.name}%`);
 
   return query;
 }
