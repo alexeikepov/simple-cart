@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import { useSearchParams, useRouter, redirect } from "next/navigation";
+import { useState } from "react";
 import Table, { ConfigT } from "zvijude/table";
 
 const headers = [
