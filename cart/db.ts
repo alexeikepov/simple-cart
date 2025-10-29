@@ -19,8 +19,8 @@ export async function getProducts() {
     .orderBy("products.id", "asc");
 }
 
-export async function getCarts() {
-  const carts = await db("carts")
+export async function getCarts(filters?: { status?: string; name?: string }) {
+  let query = db("carts")
     .join("users", "carts.userId", "users.id")
     .join("cart_items", "cart_items.cartId", "carts.id")
     .join("products", "cart_items.productId", "products.id")
@@ -40,5 +40,13 @@ export async function getCarts() {
       `)
     );
 
-  return carts;
+  if (filters?.status) {
+    query = query.where("carts.status", filters.status);
+  }
+
+  if (filters?.name) {
+    query = query.whereILike("users.user", `%${filters.name}%`);
+  }
+
+  return query;
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import Table, { ConfigT } from "zvijude/table";
 
 const headers = [
@@ -11,27 +12,34 @@ const headers = [
 
 export default function ExampleTable({ data = [] }: any) {
   const [columns, setColumns] = useState(headers);
-  const [statusFilter, setStatusFilter] = useState("");
-  const [nameFilter, setNameFilter] = useState("");
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
-  const filteredData = useMemo(() => {
-    return data.filter((cart: any) => {
-      const statusMatch = statusFilter === "" || cart.status === statusFilter;
-      const nameMatch =
-        nameFilter === "" ||
-        cart.user.toLowerCase().includes(nameFilter.toLowerCase());
-      return statusMatch && nameMatch;
-    });
-  }, [data, statusFilter, nameFilter]);
+  const statusFilter = searchParams.get("status") || "";
+  const nameFilter = searchParams.get("name") || "";
 
-  const [, setState] = useState(filteredData);
+  const updateFilter = (key: string, value: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (value) {
+      params.set(key, value);
+    } else {
+      params.delete(key);
+    }
+    router.push(`?${params.toString()}`);
+  };
+
+  const clearFilters = () => {
+    router.push("?");
+  };
+
+  const [, setState] = useState(data);
 
   const config = {
     tblId: "someTable",
     columns,
     setColumns,
-    data: filteredData,
-    state: filteredData,
+    data: data,
+    state: data,
     setState,
   } as unknown as ConfigT;
 
@@ -44,7 +52,7 @@ export default function ExampleTable({ data = [] }: any) {
           <div className="w-48">
             <select
               value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
+              onChange={(e) => updateFilter("status", e.target.value)}
               className="w-full border rounded px-3 py-2 text-right"
             >
               <option value="">All Statuses</option>
@@ -59,16 +67,13 @@ export default function ExampleTable({ data = [] }: any) {
           <input
             type="text"
             value={nameFilter}
-            onChange={(e) => setNameFilter(e.target.value)}
+            onChange={(e) => updateFilter("name", e.target.value)}
             placeholder="Filter by name..."
             className="border rounded px-3 py-2 w-64"
           />
 
           <button
-            onClick={() => {
-              setStatusFilter("");
-              setNameFilter("");
-            }}
+            onClick={clearFilters}
             className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded"
           >
             Clear
