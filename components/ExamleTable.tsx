@@ -32,7 +32,7 @@ export default function ExampleTable({ data = [] }: any) {
     router.push("?");
   };
 
-  const [, setState] = useState(data);
+  const [state, setState] = useState(data);
 
   const config = {
     tblId: "someTable",
@@ -43,7 +43,7 @@ export default function ExampleTable({ data = [] }: any) {
     setState,
   } as unknown as ConfigT;
 
-  const uniqueStatuses = [...new Set(data.map((cart: any) => cart.status))];
+  const baseStatuses = ["active", "purchased"];
 
   return (
     <div>
@@ -56,7 +56,7 @@ export default function ExampleTable({ data = [] }: any) {
               className="w-full border rounded px-3 py-2 text-right"
             >
               <option value="">All Statuses</option>
-              {uniqueStatuses.map((status) => (
+              {baseStatuses.map((status) => (
                 <option key={status as string} value={status as string}>
                   {status as string}
                 </option>

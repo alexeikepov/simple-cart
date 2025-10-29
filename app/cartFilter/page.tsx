@@ -10,7 +10,9 @@ export default async function СartFilter({ searchParams }) {
   };
 
   const carts = await getCarts(filters);
-  console.log(carts, "carts");
+
+  // console.log(carts, "carts");
+
   return (
     <div>
       <ExampleTable data={carts} />
