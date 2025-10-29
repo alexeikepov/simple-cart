@@ -13,7 +13,8 @@ export default function FilterOrders() {
   async function handleSubmit(e) {
     e.preventDefault();
     const data = getFormData(e);
-    redirect(`?filter=${JSON.stringify(data)}`);
+    const query = new URLSearchParams(data).toString();
+    redirect(`?${query}`);
   }
   return (
     <div className="mb-4 bg-white p-4 rounded-lg shadow">
